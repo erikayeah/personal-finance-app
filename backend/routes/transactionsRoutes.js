@@ -1,5 +1,8 @@
 const url = require("url");
-const { getAllTransactions } = require("../controllers/transactionsController");
+const {
+  getAllTransactions,
+  createTransaction,
+} = require("../controllers/transactionsController");
 
 function handleRoutes(req, res, collection) {
   const parsedUrl = url.parse(req.url, true);
@@ -7,6 +10,11 @@ function handleRoutes(req, res, collection) {
   // GET /api/transactions
   if (req.method === "GET" && parsedUrl.pathname === "/api/transactions") {
     return getAllTransactions(collection, res);
+  }
+
+  // POST /api/transactions
+  if (req.method === "POST" && parsedUrl.pathname === "/api/transactions") {
+    return createTransaction(req, res, collection);
   }
 
   // 404 fallback
