@@ -93,3 +93,23 @@ it("should return 400 if JSON body is invalid", async () => {
     JSON.stringify({ error: "Invalid request body" })
   );
 });
+
+const connectToDatabase = require("../db");
+
+describe("MongoDB connection", () => {
+  let client;
+
+  it("should connect to the database", async () => {
+    const db = await connectToDatabase();
+    expect(db).toBeDefined();
+    expect(typeof db.collection).toBe("function");
+
+    client = db.client;
+  });
+
+  afterAll(async () => {
+    if (client && client.close) {
+      await client.close();
+    }
+  });
+});
